@@ -6,8 +6,10 @@ import store from "./store";
 import { config } from "./config";
 import { firestorePlugin } from "vuefire";
 import firebase from "firebase/app";
+import BootstrapVue from "bootstrap-vue";
 
 Vue.use(firestorePlugin);
+Vue.use(BootstrapVue);
 
 firebase.initializeApp(config);
 export const db = firebase.firestore();

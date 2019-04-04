@@ -1,14 +1,17 @@
 <template>
-  <div class="home">
+  <div>
     <div v-for="(item, index) in ads" :key="index">
-      <p>{{ item.name }}</p>
-      <p>{{ item.age }}</p>
+      <div>
+        <b-card :title="item.name" :sub-title="item.age">
+          <b-card-text>Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, cupiditate!</b-card-text>
+          <b-button variant="primary">Primary</b-button>
+        </b-card>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
 import { db } from "../main";
 
 export default {
