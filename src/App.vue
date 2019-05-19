@@ -9,7 +9,7 @@
           <router-link to="/about">About</router-link>
         </b-nav-item>
       </b-nav>
-      <router-view/>
+      <router-view />
     </div>
   </div>
 </template>
