@@ -1,3 +1,5 @@
+import * as firebase from "firebase/app";
+
 const petAds = {
   firestorePath: "ads",
   firestoreRefType: "collection", // or 'doc'
@@ -10,7 +12,15 @@ const petAds = {
   state: {},
   getters: {},
   mutations: {},
-  actions: {}
+  actions: {
+    fetchAds() {
+      firebase
+        .firestore()
+        .collection("ads")
+        .where("adopted", "==", false)
+        .get();
+    }
+  }
 };
 
 export default petAds;
