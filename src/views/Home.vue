@@ -1,16 +1,20 @@
 <template>
-  <div
-    style="display: grid; grid-template-columns: repeat(4, 1fr); grid-column-gap: 10px;"
-  >
-    <div v-for="(item, index) in ads" :key="index">
-      <span>{{ item.name }}</span>
-    </div>
-  </div>
+  <pre>{{ ads }}</pre>
 </template>
 
 <script>
 export default {
   name: "home",
-  components: {}
+  components: {},
+  data() {
+    return {
+      ads: ""
+    };
+  },
+  created() {
+    let a = this.$store.dispatch("petAds/openDBChannel");
+    console.log(a);
+    this.ads = this.$store.state.petAds.ads;
+  }
 };
 </script>
