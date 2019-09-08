@@ -3,8 +3,8 @@ import Vuex from "vuex";
 import VuexEasyFirestore from "vuex-easy-firestore";
 Vue.use(Vuex);
 
-import { Firebase, initFirebase } from "./config/firestore.js";
-import petAds from "./modules/petAds.js";
+import { Firebase, initFirebase } from "../config/firebase.js";
+import petAds from "../modules/petAds.js";
 
 const easyFirestore = VuexEasyFirestore([petAds], {
   logging: true,
