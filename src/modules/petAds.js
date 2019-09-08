@@ -1,5 +1,5 @@
 const petAds = {
-  firestorePath: "petAds",
+  firestorePath: "ads",
   firestoreRefType: "collection", // or 'doc'
   moduleName: "petAds",
   statePropName: "data",
@@ -7,14 +7,8 @@ const petAds = {
 
   // this object is your store module (will be added as '/petAds')
   // you can also add state/getters/mutations/actions
-  state: {
-    petAds
-  },
-  getters: {
-    paginatedPetAds: state => {
-      return state.petAds;
-    }
-  },
+  state: {},
+  getters: {},
   mutations: {
     savePetAd: () => {}
   },

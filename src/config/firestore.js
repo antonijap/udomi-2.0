@@ -1,10 +1,9 @@
 import * as Firebase from "firebase/app";
 import "firebase/firestore";
+import { config } from "../config";
 
 function initFirebase() {
-  Firebase.initializeApp({
-    /* your Firebase config */
-  });
+  Firebase.initializeApp(config);
   return new Promise((resolve, reject) => {
     Firebase.firestore()
       .enablePersistence()
