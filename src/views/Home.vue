@@ -60,16 +60,21 @@ img /deep/ {
 </style>
 
 <script>
-import { db } from "../main";
+import { db } from "../main"; // ovu konfiguraciju maknuti kad easy vuex firestore proradi
+import { mapGetters } from "vuex";
 
 export default {
   name: "home",
   components: {},
+  computed: {
+    ...mapGetters(["paginatedPetAds"])
+  },
   data() {
     return {
       ads: {}
     };
   },
+  // ovu konfiguraciju maknuti kad easy vuex firestore proradi
   firestore() {
     return {
       ads: db.collection("ads")
