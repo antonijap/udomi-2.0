@@ -1,28 +1,31 @@
 <template>
-  <pre>{{ ads }}</pre>
+  <pre>{{ getCurrentAds }}</pre>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "home",
   components: {},
-  data() {
-    return {
-      ads: ""
-    };
+  computed: {
+    ...mapGetters("petAds", ["getAllAds", "getCurrentAds"])
   },
   created() {
-    this.$store
-      .dispatch("petAds/fetchAndAdd", {
-        where: [["adopted", "==", false]],
-        limit: 1
-      })
-      .then(querySnapshot => {
-        console.log(querySnapshot);
-        this.ads = this.$store.state.petAds.ads;
-        // do whatever you want with the `querySnapshot`
-      })
-      .catch(console.error);
+    // this.$store.dispatch("petAds/fetchAllAds");
+    this.$store.dispatch("petAds/fetchAds", 5);
+    // doc.forEach(function(obj) {
+    //     Firebase.firestore().collection("petAds").add({
+    //         created: obj.created,
+    //         name: obj.name,
+    //         adopted: obj.adopted
+    //     }).then(function(docRef) {
+    //         console.log("Document written with ID: ", docRef.id);
+    //     })
+    //     .catch(function(error) {
+    //         console.error("Error adding document: ", error);
+    //     });
+    // });
   }
 };
 </script>
