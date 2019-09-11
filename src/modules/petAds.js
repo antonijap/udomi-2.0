@@ -1,4 +1,5 @@
 import { Firebase } from "../config/firebase.js";
+import moment from "moment";
 
 const petAds = {
   firestorePath: "petAds",
@@ -20,12 +21,17 @@ const petAds = {
   getters: {
     getAllAds: state => {
       return Object.values(state.allAds).sort(function(a, b) {
-        return new Date(b.created) - new Date(a.created);
+        return b.created - a.created;
       });
     },
     getCurrentAds: state => {
       return Object.values(state.currentAds).sort(function(a, b) {
-        return new Date(b.created) - new Date(a.created);
+        return b.created - a.created;
+      });
+    },
+    getNextAds: state => {
+      return Object.values(state.nextAds).sort(function(a, b) {
+        return b.created - a.created;
       });
     }
   },
@@ -35,6 +41,9 @@ const petAds = {
     },
     saveCurrentAds(state, payload) {
       state.currentAds.push(payload);
+    },
+    saveNextAds(state, payload) {
+      state.nextAds.push(payload);
     }
   },
   actions: {
@@ -46,7 +55,14 @@ const petAds = {
         .get()
         .then(querySnapshot => {
           querySnapshot.forEach(doc => {
-            commit("saveAllAdsToState", doc.data());
+            let created = moment
+              .unix(doc.data().created.seconds)
+              .format("YYYY/MM/DD");
+            let newObject = {
+              name: doc.data().name,
+              created: created
+            };
+            commit("saveAllAdsToState", newObject);
           });
         });
     },
@@ -54,15 +70,48 @@ const petAds = {
       Firebase.firestore()
         .collection("petAds")
         .where("adopted", "==", true)
-        .limit(limit)
         .orderBy("created", "desc")
+        .limit(limit)
         .get()
         .then(querySnapshot => {
+          // Save fetched ads into current object
           querySnapshot.forEach(doc => {
-            console.log(doc.data());
-            commit("saveCurrentAds", doc.data());
+            let created = moment
+              .unix(doc.data().created.seconds)
+              .format("YYYY/MM/DD");
+            let newObject = {
+              name: doc.data().name,
+              created: created
+            };
+            commit("saveCurrentAds", newObject);
           });
+          // Get next 5 results and save fetched ads into next object
+          var lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+          Firebase.firestore()
+            .collection("petAds")
+            .where("adopted", "==", true)
+            .orderBy("created", "desc")
+            .startAfter(lastVisible)
+            .limit(limit)
+            .get()
+            .then(querySnapshot => {
+              querySnapshot.forEach(doc => {
+                let created = moment
+                  .unix(doc.data().created.seconds)
+                  .format("YYYY/MM/DD");
+                let newObject = {
+                  name: doc.data().name,
+                  created: created
+                };
+                commit("saveNextAds", newObject);
+              });
+            });
         });
+    }
+  },
+  serverChange: {
+    convertTimestamps: {
+      created: "%convertTimestamp%"
     }
   }
 };
