@@ -1,68 +1,93 @@
 import { Firebase } from "../config/firebase.js";
+import moment from "moment";
 
 const petAds = {
   firestorePath: "petAds",
-  firestoreRefType: "collection", // or 'doc'
+  firestoreRefType: "collection",
   moduleName: "petAds",
   statePropName: "data",
-  namespaced: true, // automatically added
-
-  // this object is your store module (will be added as '/petAds')
+  namespaced: true,
   state: {
-    allAds: [],
-    previousAds: [],
-    currentAds: [],
-    nextAds: [],
-    newestDogs: [],
-    newestCats: [],
-    newestApartments: []
+    pagination: {
+      loading: true,
+      lastVisible: {},
+      previousAds: [],
+      currentAds: [],
+      nextAds: []
+    },
+    newestShowcase: {
+      loading: true,
+      newestDogs: [],
+      newestCats: [],
+      newestApartments: []
+    }
   },
   getters: {
-    getAllAds: state => {
-      return Object.values(state.allAds).sort(function(a, b) {
-        return new Date(b.created) - new Date(a.created);
-      });
+    getPaginationLoading: state => {
+      return state.pagination.loading;
     },
     getCurrentAds: state => {
-      return Object.values(state.currentAds).sort(function(a, b) {
-        return new Date(b.created) - new Date(a.created);
+      return Object.values(state.pagination.currentAds).sort(function(a, b) {
+        return b.created - a.created;
+      });
+    },
+    getNextAds: state => {
+      return Object.values(state.pagination.nextAds).sort(function(a, b) {
+        return b.created - a.created;
       });
     }
   },
   mutations: {
-    saveAllAdsToState(state, payload) {
-      state.allAds.push(payload);
-    },
     saveCurrentAds(state, payload) {
-      state.currentAds.push(payload);
+      console.log(payload, "sejvam u store");
+      state.pagination.currentAds.push(payload);
+      state.pagination.loading = false;
+    },
+    saveLastAdForPagination(state, payload) {
+      state.pagination.lastVisible = payload;
     }
   },
   actions: {
-    fetchAllAds({ commit }) {
-      Firebase.firestore()
-        .collection("petAds")
-        .where("adopted", "==", true)
-        .orderBy("created", "desc")
-        .get()
-        .then(querySnapshot => {
-          querySnapshot.forEach(doc => {
-            commit("saveAllAdsToState", doc.data());
-          });
+    fetchAds({ commit, state }, limit) {
+      let query = "";
+      if (Object.keys(state.pagination.lastVisible).length === 0) {
+        console.log("LastVisible is not saved");
+        query = Firebase.firestore()
+          .collection("petAds")
+          .where("adopted", "==", true)
+          .orderBy("created", "desc")
+          .limit(limit)
+          .get();
+      } else {
+        console.log("LastVisible saved", state.pagination.lastVisible);
+        query = Firebase.firestore()
+          .collection("petAds")
+          .where("adopted", "==", true)
+          .orderBy("created", "desc")
+          .startAfter(state.pagination.lastVisible)
+          .limit(limit)
+          .get();
+      }
+      query.then(querySnapshot => {
+        let lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+        commit("saveLastAdForPagination", lastVisible);
+        querySnapshot.forEach(doc => {
+          let created = moment
+            .unix(doc.data().created.seconds)
+            .format("YYYY/MM/DD");
+          let newObject = {
+            // TODO: parse all object here
+            name: doc.data().name,
+            created: created
+          };
+          commit("saveCurrentAds", newObject);
         });
-    },
-    fetchAds({ commit }, limit) {
-      Firebase.firestore()
-        .collection("petAds")
-        .where("adopted", "==", true)
-        .limit(limit)
-        .orderBy("created", "desc")
-        .get()
-        .then(querySnapshot => {
-          querySnapshot.forEach(doc => {
-            console.log(doc.data());
-            commit("saveCurrentAds", doc.data());
-          });
-        });
+      });
+    }
+  },
+  serverChange: {
+    convertTimestamps: {
+      created: "%convertTimestamp%"
     }
   }
 };

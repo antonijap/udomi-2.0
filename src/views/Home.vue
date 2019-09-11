@@ -1,5 +1,17 @@
 <template>
-  <pre>{{ getCurrentAds }}</pre>
+  <div>
+    <div v-show="!getPaginationLoading">
+      <h1>Current</h1>
+      <div v-for="(ad, index) in getCurrentAds" :key="index + '-a'">
+        {{ ad.name }} - {{ ad.created }}
+      </div>
+    </div>
+    <font-awesome-icon
+      v-show="getPaginationLoading"
+      :icon="['fal', 'spinner']"
+      size="lg"
+    />
+  </div>
 </template>
 
 <script>
@@ -9,23 +21,15 @@ export default {
   name: "home",
   components: {},
   computed: {
-    ...mapGetters("petAds", ["getAllAds", "getCurrentAds"])
+    ...mapGetters("petAds", ["getPaginationLoading", "getCurrentAds"])
   },
   created() {
-    // this.$store.dispatch("petAds/fetchAllAds");
-    this.$store.dispatch("petAds/fetchAds", 5);
-    // doc.forEach(function(obj) {
-    //     Firebase.firestore().collection("petAds").add({
-    //         created: obj.created,
-    //         name: obj.name,
-    //         adopted: obj.adopted
-    //     }).then(function(docRef) {
-    //         console.log("Document written with ID: ", docRef.id);
-    //     })
-    //     .catch(function(error) {
-    //         console.error("Error adding document: ", error);
-    //     });
-    // });
+    setTimeout(() => {
+      this.$store.dispatch("petAds/fetchAds", 5);
+      setTimeout(() => {
+        this.$store.dispatch("petAds/fetchAds", 5);
+      }, 3000);
+    }, 3000);
   }
 };
 </script>
