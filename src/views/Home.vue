@@ -5,6 +5,7 @@
       <div v-for="(ad, index) in getCurrentAds" :key="index + '-a'">
         {{ ad.name }} - {{ ad.created }}
       </div>
+      <button @click="getads">Get +5</button>
     </div>
     <font-awesome-icon
       v-show="getPaginationLoading"
@@ -297,12 +298,18 @@ export default {
     ...mapGetters("petAds", ["getPaginationLoading", "getCurrentAds"])
   },
   created() {
-    setTimeout(() => {
+    this.$store.dispatch("petAds/fetchAds", 5);
+    // setTimeout(() => {
+    //   this.$store.dispatch("petAds/fetchAds", 5);
+    //   setTimeout(() => {
+    //     this.$store.dispatch("petAds/fetchAds", 5);
+    //   }, 3000);
+    // }, 3000);
+  },
+  methods: {
+    getads() {
       this.$store.dispatch("petAds/fetchAds", 5);
-      setTimeout(() => {
-        this.$store.dispatch("petAds/fetchAds", 5);
-      }, 3000);
-    }, 3000);
+    }
   }
 };
 </script>

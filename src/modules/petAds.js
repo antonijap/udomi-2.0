@@ -11,7 +11,6 @@ const petAds = {
     pagination: {
       loading: true,
       lastVisible: {},
-      previousAds: [],
       currentAds: [],
       nextAds: []
     },
@@ -51,7 +50,6 @@ const petAds = {
     fetchAds({ commit, state }, limit) {
       let query = "";
       if (Object.keys(state.pagination.lastVisible).length === 0) {
-        console.log("LastVisible is not saved");
         query = Firebase.firestore()
           .collection("petAds")
           .where("adopted", "==", true)
@@ -59,7 +57,6 @@ const petAds = {
           .limit(limit)
           .get();
       } else {
-        console.log("LastVisible saved", state.pagination.lastVisible);
         query = Firebase.firestore()
           .collection("petAds")
           .where("adopted", "==", true)
@@ -69,19 +66,23 @@ const petAds = {
           .get();
       }
       query.then(querySnapshot => {
-        let lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
-        commit("saveLastAdForPagination", lastVisible);
-        querySnapshot.forEach(doc => {
-          let created = moment
-            .unix(doc.data().created.seconds)
-            .format("YYYY/MM/DD");
-          let newObject = {
-            // TODO: parse all object here
-            name: doc.data().name,
-            created: created
-          };
-          commit("saveCurrentAds", newObject);
-        });
+        if (querySnapshot.docs.length > 0) {
+          let lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+          commit("saveLastAdForPagination", lastVisible);
+          querySnapshot.forEach(doc => {
+            let created = moment
+              .unix(doc.data().created.seconds)
+              .format("YYYY/MM/DD");
+            let newObject = {
+              // TODO: parse all object here
+              name: doc.data().name,
+              created: created
+            };
+            commit("saveCurrentAds", newObject);
+          });
+        } else {
+          console.log("Nema vise");
+        }
       });
     }
   },
