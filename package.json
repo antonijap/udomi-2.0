@@ -46,11 +46,21 @@
       "node": true
     },
     "extends": [
-      "plugin:vue/essential",
-      "@vue/prettier"
+      "plugin:vue/recommended",
+      "eslint:recommended",
+      "prettier/vue",
+      "plugin:prettier/recommended"
     ],
     "rules": {
-      "no-console": 0
+      "no-console": 0,
+      "max-len": [
+        2,
+        {
+          "code": 80,
+          "tabWidth": 4,
+          "ignoreUrls": true
+        }
+      ]
     },
     "parserOptions": {
       "parser": "babel-eslint"
