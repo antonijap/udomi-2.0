@@ -53,14 +53,7 @@
     ],
     "rules": {
       "no-console": 0,
-      "max-len": [
-        2,
-        {
-          "code": 80,
-          "tabWidth": 4,
-          "ignoreUrls": true
-        }
-      ]
+      "max-len": 0
     },
     "parserOptions": {
       "parser": "babel-eslint"

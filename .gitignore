@@ -21,3 +21,5 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw*
+src/stubsPetAds.js
+src/petAd_JSON.js

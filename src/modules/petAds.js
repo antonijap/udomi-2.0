@@ -18,8 +18,7 @@ const petAds = {
     newestShowcase: {
       loading: true,
       newestDogs: [],
-      newestCats: [],
-      newestApartments: []
+      newestCats: []
     }
   },
   getters: {
@@ -74,7 +73,7 @@ const petAds = {
       if (Object.keys(state.pagination.lastVisible).length === 0) {
         query = Firebase.firestore()
           .collection("petAds")
-          .where("adopted", "==", true)
+          .where("adopted", "==", false)
           .orderBy("created", "desc")
           .limit(limit)
           .get();
@@ -92,13 +91,29 @@ const petAds = {
           let lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
           commit("saveLastAdForPagination", lastVisible);
           querySnapshot.forEach(doc => {
-            let created = moment.unix(doc.data().created.seconds).fromNow();
+            let created = moment(doc.data().created).fromNow();
             let newObject = {
-              // TODO: parse all object here
+              // TODO: parse all fields here
               name: doc.data().name,
               created: created,
               id: doc.data().index,
-              animalType: doc.data().type
+              animalType: doc.data().animalType,
+              adType: doc.data().adType,
+              vaccinated: doc.data().vaccinated,
+              adopted: doc.data().adopted,
+              hidden: doc.data().hidden,
+              description: doc.data().description,
+              owner: doc.data().owner,
+              sex: doc.data().sex,
+              age: doc.data().age,
+              chipped: doc.data().chipped,
+              invalidity: doc.data().invalidity,
+              sterilized: doc.data().sterilized,
+              castrated: doc.data().castrated,
+              images: doc.data().images,
+              friendlyWithCats: doc.data().friendlyWithCats,
+              friendlyWithDogs: doc.data().friendlyWithDogs,
+              friendlyWithChildren: doc.data().friendlyWithChildren
             };
             commit("saveCurrentAds", newObject);
           });
@@ -107,49 +122,24 @@ const petAds = {
         }
       });
     },
-    fetchNewest({ commit }, [type, limit]) {
-      if (type === "dog") {
+    fetchNewest({ commit }, [adType, animalType, limit]) {
+      if (adType === "petAd") {
         Firebase.firestore()
           .collection("petAds")
           .where("adopted", "==", false)
-          .where("type", "==", type)
+          .where("animalType", "==", animalType)
           .orderBy("created", "desc")
           .limit(limit)
           .get()
           .then(querySnapshot => {
             if (querySnapshot.docs.length > 0) {
               querySnapshot.forEach(doc => {
-                let created = moment.unix(doc.data().created.seconds).fromNow();
-                let newObject = {
-                  // TODO: parse all object here
-                  name: doc.data().name,
-                  created: created,
-                  type: doc.data().type,
-                  id: doc.data().index
-                };
-                commit("saveNewestDogs", newObject);
-              });
-            }
-          });
-      } else if (type === "cat") {
-        Firebase.firestore()
-          .collection("petAds")
-          .where("adopted", "==", false)
-          .where("type", "==", type)
-          .orderBy("created", "desc")
-          .limit(limit)
-          .get()
-          .then(querySnapshot => {
-            if (querySnapshot.docs.length > 0) {
-              querySnapshot.forEach(doc => {
-                let created = moment.unix(doc.data().created.seconds).fromNow();
-                let newObject = {
-                  // TODO: parse all object here
-                  name: doc.data().name,
-                  created: created,
-                  type: doc.data().type
-                };
-                commit("saveNewestCats", newObject);
+                if (animalType == "dog") {
+                  commit("saveNewestDogs", doc.data());
+                }
+                if (animalType == "cat") {
+                  commit("saveNewestCats", doc.data());
+                }
               });
             }
           });
