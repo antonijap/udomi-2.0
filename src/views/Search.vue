@@ -8,6 +8,8 @@
       <input v-model="animalTypeFilter" type="radio" value="rodent" /> Rodent
       <br /><br />
       <input v-model="filters" value="vaccinated" type="checkbox" /> Vaccinated
+      <input v-model="filters" value="chipped" type="checkbox" /> Chipped
+      <input v-model="filters" value="sterilized" type="checkbox" /> Sterilized
       <hr />
       <div v-for="(ad, index) in filteredData" :key="index + '-a'">
         <router-link
@@ -15,8 +17,11 @@
             name: 'petAd',
             params: { id: ad.id, name: ad.name.toLowerCase() }
           }"
-          >{{ ad.name }} - {{ ad.created }} - {{ ad.vaccinated }} -
-          <strong>{{ ad.animalType }}</strong></router-link
+        >
+          Name: {{ ad.name }}, created: {{ ad.created }}, vaccinated:
+          {{ ad.vaccinated }}, sterilized: {{ ad.sterilized }}, chipped:
+          {{ ad.chipped }}
+          <strong>animalType: {{ ad.animalType }}</strong></router-link
         >
       </div>
       <button @click="getMoreAds">Get +5</button>
@@ -45,7 +50,10 @@ export default {
     ...mapGetters("petAds", ["getPaginationLoading", "getCurrentAds"]),
     filteredData() {
       return this.getCurrentAds.filter(item => {
-        if (this.filters.length === 0) {
+        if (
+          this.filters.length === 0 &&
+          item.animalType === this.animalTypeFilter
+        ) {
           return true;
         }
         let showItem = false;
@@ -55,23 +63,15 @@ export default {
             this.filters.includes(item[property])
           ) {
             showItem = true;
-            // console.debug(
-            //   `The item ${JSON.stringify(
-            //     item
-            //   )} contains the property "${property}" with the value "${
-            //     item[property]
-            //   }" which is also in the filters array.`
-            // );
           }
         });
         this.allBooleanObjectProperties.forEach(property => {
-          if (item[property] === true && this.filters.includes(property)) {
+          if (
+            item[property] === true &&
+            this.filters.includes(property) &&
+            item.animalType === this.animalTypeFilter
+          ) {
             showItem = true;
-            console.debug(
-              `The item ${JSON.stringify(
-                item
-              )} contains the boolean property "${property}" which is "true" and is also in the filters array.`
-            );
           }
         });
         return showItem;
