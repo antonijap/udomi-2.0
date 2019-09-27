@@ -48,60 +48,29 @@ export default {
   },
   computed: {
     ...mapGetters("petAds", ["getPaginationLoading", "getCurrentAds"]),
+    // Check if an item has all items in this.filters and they must be true
     filteredData() {
       return this.getCurrentAds.filter(item => {
         if (
           this.filters.length === 0 &&
           item.animalType === this.animalTypeFilter
         ) {
-          return true;
+          console.log("No filters applied.");
+          return item;
         }
-        let showItem = false;
-        this.allObjectPropertiesWithoutBooleans.forEach(property => {
+        let show = false;
+        Object.keys(item).forEach(key => {
           if (
-            item[property] !== undefined &&
-            this.filters.includes(item[property])
-          ) {
-            showItem = true;
-          }
-        });
-        this.allBooleanObjectProperties.forEach(property => {
-          if (
-            item[property] === true &&
-            this.filters.includes(property) &&
+            this.filters.includes(key) &&
+            item[key] === true &&
             item.animalType === this.animalTypeFilter
           ) {
-            showItem = true;
+            console.log(`${key} : ${item[key]} for ${item.name}`);
+            show = true;
           }
         });
-        return showItem;
+        return show;
       });
-    },
-    allObjectPropertiesWithoutBooleans() {
-      const objectProperties = {};
-      this.getCurrentAds.forEach(item => {
-        Object.keys(item)
-          .filter(
-            property => item[property] !== true && item[property] !== false
-          )
-          .forEach(property => {
-            objectProperties[property] = true;
-          });
-      });
-      return Object.keys(objectProperties);
-    },
-    allBooleanObjectProperties() {
-      const objectProperties = {};
-      this.getCurrentAds.forEach(item => {
-        Object.keys(item)
-          .filter(
-            property => item[property] === true || item[property] === false
-          )
-          .forEach(property => {
-            objectProperties[property] = true;
-          });
-      });
-      return Object.keys(objectProperties);
     }
   },
   created() {

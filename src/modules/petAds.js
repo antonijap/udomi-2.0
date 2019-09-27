@@ -96,7 +96,7 @@ const petAds = {
               // TODO: parse all fields here
               name: doc.data().name,
               created: created,
-              id: doc.data().index,
+              id: doc.data().id,
               animalType: doc.data().animalType,
               adType: doc.data().adType,
               vaccinated: doc.data().vaccinated,
@@ -108,7 +108,7 @@ const petAds = {
               age: doc.data().age,
               chipped: doc.data().chipped,
               invalidity: doc.data().invalidity,
-              sterilized: doc.data().sterilized,
+              sterilized: doc.data().sterilization,
               castrated: doc.data().castrated,
               images: doc.data().images,
               friendlyWithCats: doc.data().friendlyWithCats,
