@@ -16,6 +16,7 @@
     "@fortawesome/vue-fontawesome": "^0.1.6",
     "core-js": "^2.6.5",
     "firebase": "^6.3.4",
+    "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "vue": "^2.6.10",
     "vue-paginate": "^3.6.0",

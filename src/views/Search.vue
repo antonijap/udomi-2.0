@@ -6,7 +6,8 @@
       <input v-model="animalTypeFilter" type="radio" value="dog" /> Dog
       <input v-model="animalTypeFilter" type="radio" value="bird" /> Bird
       <input v-model="animalTypeFilter" type="radio" value="rodent" /> Rodent
-      <br /><br />
+      <br />
+      <br />
       <input v-model="filters" value="vaccinated" type="checkbox" /> Vaccinated
       <input v-model="filters" value="chipped" type="checkbox" /> Chipped
       <input v-model="filters" value="sterilized" type="checkbox" /> Sterilized
@@ -21,8 +22,8 @@
           Name: {{ ad.name }}, created: {{ ad.created }}, vaccinated:
           {{ ad.vaccinated }}, sterilized: {{ ad.sterilized }}, chipped:
           {{ ad.chipped }}
-          <strong>animalType: {{ ad.animalType }}</strong></router-link
-        >
+          <strong>animalType: {{ ad.animalType }}</strong>
+        </router-link>
       </div>
       <button @click="getMoreAds">Get +5</button>
     </div>
@@ -36,6 +37,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+// import _ from "lodash";
 
 export default {
   name: "Search",
@@ -52,24 +54,20 @@ export default {
     filteredData() {
       return this.getCurrentAds.filter(item => {
         if (
-          this.filters.length === 0 &&
+          this.filters.length >= 0 &&
           item.animalType === this.animalTypeFilter
         ) {
-          console.log("No filters applied.");
+          console.log("No filters, returning an item");
           return item;
+        } else {
+          Object.keys(item).map(key => {
+            this.filters.map(filter => {
+              if (key.includes(filter)) {
+                return item;
+              }
+            });
+          });
         }
-        let show = false;
-        Object.keys(item).forEach(key => {
-          if (
-            this.filters.includes(key) &&
-            item[key] === true &&
-            item.animalType === this.animalTypeFilter
-          ) {
-            console.log(`${key} : ${item[key]} for ${item.name}`);
-            show = true;
-          }
-        });
-        return show;
       });
     }
   },
