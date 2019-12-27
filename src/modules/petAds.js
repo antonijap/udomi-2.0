@@ -93,7 +93,6 @@ const petAds = {
           querySnapshot.forEach(doc => {
             let created = moment(doc.data().created).fromNow();
             let newObject = {
-              // TODO: parse all fields here
               name: doc.data().name,
               created: created,
               id: doc.data().id,

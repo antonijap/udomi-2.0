@@ -3,8 +3,7 @@
     <router-link
       :to="{
         name: 'search',
-        params: { adType: 'petAd' },
-        query: { animalType: 'cat' }
+        params: { animalType: 'cat' }
       }"
       >Macke</router-link
     >
