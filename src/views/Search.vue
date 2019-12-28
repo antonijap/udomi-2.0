@@ -68,7 +68,7 @@ export default {
   created() {
     this.$store.dispatch("petAds/fetchAds", 20);
     this.$route.params.animalType
-      ? this.filters.push(this.$route.params.animalType)
+      ? (this.animalType = this.$route.params.animalType)
       : "";
   },
   methods: {
