@@ -47,7 +47,6 @@ export default {
     login() {
       // this.$store.dispatch("users/set", { title: "Hello Firestore 🔥" });
       this.$store.dispatch("users/googleLogin");
-      this.$router.history.push("/dashboard");
     },
     logout() {
       this.$store.dispatch("users/googleLogout");

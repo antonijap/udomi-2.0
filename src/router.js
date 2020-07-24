@@ -45,23 +45,22 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    // Need to login: Dashboard, New Ad
-    Firebase.auth().onAuthStateChanged(function(user) {
-      if (user) {
-        console.log("user exists in firebase");
-        store.commit("users/SAVE_USER", user);
-        next();
-      } else {
+  Firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      console.log("user exists in firebase");
+      store.commit("users/SAVE_USER", user);
+      next();
+    } else {
+      if (to.matched.some(record => record.meta.requiresAuth)) {
+        // Need to login: Dashboard, New Ad
         console.log("user doesn't exist in firebase");
-        store.dispatch("users/googleLogout");
         next("/");
+      } else {
+        // Free to view
+        next();
       }
-    });
-  } else {
-    // Free to view
-    next();
-  }
+    }
+  });
 });
 
 export default router;
