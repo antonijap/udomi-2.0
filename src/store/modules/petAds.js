@@ -1,4 +1,4 @@
-import { Firebase } from "../config/firebase.js";
+import { Firebase } from "../../config/firebase";
 import moment from "moment";
 moment.locale("hr");
 
