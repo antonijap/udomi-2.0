@@ -15,7 +15,6 @@ const users = {
     authenticated(state) {
       let authenticated = false;
       let user = state.user;
-      console.log(user);
       if (user !== null && user !== false && user !== "") {
         authenticated = true;
       }
@@ -25,25 +24,15 @@ const users = {
   mutations: {
     SAVE_USER(state, payload) {
       state.user = payload;
-      sessionStorage.setItem("user", JSON.stringify(payload));
-      console.log(
-        "%c LOGIN SUCCESFULL ",
-        "color: gray; background: #42f598; padding: 5px; font-size: 12px; border-radius: 15px;"
-      );
     },
     REMOVE_USER(state) {
-      sessionStorage.removeItem("user");
       state.user = null;
-      console.log(
-        "%c LOGOUT SUCCESFULL ",
-        "color: gray; background: #42ddf5; padding: 5px; font-size: 12px; border-radius: 15px;"
-      );
     }
   },
   actions: {
-    fetchUser(payload) {
-      console.log(payload);
-    },
+    // fetchUser(payload) {
+    //   // User fetched, data in payload
+    // },
     googleLogin({ commit }) {
       Firebase.auth()
         .signInWithPopup(new Firebase.auth.GoogleAuthProvider())

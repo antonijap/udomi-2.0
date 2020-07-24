@@ -47,7 +47,6 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   Firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
-      console.log("user exists in firebase");
       store.commit("users/SAVE_USER", user);
       next();
     } else {
