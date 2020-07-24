@@ -48,28 +48,36 @@ const users = {
       Firebase.auth()
         .signInWithPopup(new Firebase.auth.GoogleAuthProvider())
         .then(result => {
-          console.log("user", result.user);
-          // 1 - Check if email exists in database
-
-          // 2 - Write new document
           const db = Firebase.firestore();
+          // 1 - Check if email exists in database
           db.collection("users")
-            .add({
-              name: result.user.displayName,
-              email: result.user.email,
-              created: new Date(),
-              modified: new Date()
-            })
-            .then(() => {
-              console.log("Document successfully written!");
-            })
-            .catch(error => {
-              console.error("Error writing document: ", error);
-            });
+            .where("email", "==", result.user.email)
+            .get()
+            .then(function(querySnapshot) {
+              if (querySnapshot.docs.length === 0) {
+                // 2 - Write new document
+                db.collection("users")
+                  .add({
+                    name: result.user.displayName,
+                    email: result.user.email,
+                    created: new Date(),
+                    modified: new Date()
+                  })
+                  .then(() => {
+                    console.log("Document successfully written!");
+                  })
+                  .catch(error => {
+                    console.error("Error writing document: ", error);
+                  });
 
-          commit("SAVE_USER", result.user);
-          // 3 - commit to vuex
+                commit("SAVE_USER", result.user);
+              }
+            })
+            .catch(function(error) {
+              console.log("Error getting documents: ", error);
+            });
         })
+
         .catch(function(error) {
           const errorCode = error.code;
           const errorMessage = error.message;
