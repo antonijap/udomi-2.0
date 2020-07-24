@@ -11,7 +11,6 @@
 	"dependencies": {
 		"core-js": "^2.6.5",
 		"firebase": "7.17.1",
-		"lodash": "^4.17.19",
 		"moment": "^2.24.0",
 		"vue": "^2.6.10",
 		"vue-paginate": "^3.6.0",
