@@ -13,6 +13,7 @@
 		"firebase": "^6.3.4",
 		"lodash": "^4.17.19",
 		"moment": "^2.24.0",
+		"tailwindcss": "^1.5.2",
 		"vue": "^2.6.10",
 		"vue-paginate": "^3.6.0",
 		"vue-router": "^3.0.1",
@@ -53,11 +54,6 @@
 		},
 		"parserOptions": {
 			"parser": "babel-eslint"
-		}
-	},
-	"postcss": {
-		"plugins": {
-			"autoprefixer": {}
 		}
 	},
 	"browserslist": [
