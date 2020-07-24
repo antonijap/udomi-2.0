@@ -66,6 +66,7 @@ const users = {
               console.log("Error getting documents: ", error);
             });
         })
+
         .catch(function(error) {
           const errorCode = error.code;
           const errorMessage = error.message;
