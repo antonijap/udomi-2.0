@@ -20,11 +20,27 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "Home",
-  components: {},
+  data() {
+    return {};
+  },
+  mounted() {
+    this.loggedIn = this.$store.getters["users/authenticated"];
+  },
+  methods: {
+    login() {
+      // this.$store.dispatch("users/set", { title: "Hello Firestore 🔥" });
+      this.$store.dispatch("users/googleLogin");
+    },
+    logout() {
+      this.$store.dispatch("users/googleLogout");
+    },
+    ...mapActions("users", ["fetchUser", "googleLogin", "googleLogout"])
+  },
+  /* eslint-disable vue/order-in-components */
   computed: {
     ...mapGetters("petAds", ["getCurrentAds", "getNewestDogs", "getNewestCats"])
   }
