@@ -4,9 +4,10 @@ import VuexEasyFirestore from "vuex-easy-firestore";
 Vue.use(Vuex);
 
 import { Firebase, initFirebase } from "../config/firebase.js";
-import petAds from "../modules/petAds.js";
+import petAds from "./modules/petAds.js";
+import users from "./modules/users.js";
 
-const easyFirestore = VuexEasyFirestore([petAds], {
+const easyFirestore = VuexEasyFirestore([petAds, users], {
   logging: true,
   FirebaseDependency: Firebase
 });
