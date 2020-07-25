@@ -28,11 +28,6 @@
       </div>
       <button @click="getMoreAds">Get +5</button>
     </div>
-    <font-awesome-icon
-      v-show="getPaginationLoading"
-      :icon="['fal', 'spinner']"
-      size="lg"
-    />
   </div>
 </template>
 

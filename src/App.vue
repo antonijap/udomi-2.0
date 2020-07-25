@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <main-navbar :authenticated="$store.getters['users/authenticated']" />
-
     <router-view :key="$route.path" />
   </div>
 </template>
