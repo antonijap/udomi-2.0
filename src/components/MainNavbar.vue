@@ -1,43 +1,63 @@
 <template>
-  <nav class="flex items-center justify-between flex-wrap bg-teal-500 p-6">
-    <div class="flex items-center flex-shrink-0 text-white mr-6">
+  <nav class="flex justify-between flex-wrap bg-white-500 p-6">
+    <div class="flex flex-auto text-gray-900 mr-6">
       <router-link to="/" class="font-semibold text-xl tracking-tight">
         Udomi
       </router-link>
     </div>
 
-    <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
-      <div class="text-sm lg:flex-grow">
-        <router-link
-          to="/about"
-          class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4"
-        >
-          About
-        </router-link>
+    <div class="flex items-center w-auto flex-initial">
+      <button
+        v-if="authenticated === false"
+        class="bg-blue-100 text-blue-500 py-2 px-4 mr-4 rounded"
+        @click="login"
+      >
+        Ulogiraj se
+      </button>
 
-        <router-link
-          v-if="authenticated"
-          to="/dashboard"
-          class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4"
+      <router-link
+        v-if="authenticated === true"
+        class="bg-blue-100 text-blue-500 py-2 px-4 mr-4 rounded"
+        to="/"
+      >
+        Objavi oglas
+      </router-link>
+
+      <router-link
+        v-if="authenticated === true"
+        to="/"
+        class="bg-blue-100 text-blue-500 py-2 px-4 mr-4 rounded inline-block flex"
+        @mouseover.native="dropdownVisible = true"
+      >
+        <span>{{ firstName }}</span>
+        <feather type="chevron-down" />
+
+        <!--Dropdown-->
+        <div
+          v-if="dropdownVisible"
+          class="block bg-white rounded-lg py-2 w-48 shadow-xl mt-8 -ml-4 absolute"
+          @mouseleave="dropdownVisible = !dropdownVisible"
         >
+          <router-link
+            v-if="authenticated"
+            to="/dashboard"
+            class="text-gray-900 hover:bg-indigo-100 block px-4 py-2"
+          >
+            Moji oglasi
+          </router-link>
           <button
             v-if="authenticated === true"
-            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            class="text-gray-900 hover:bg-indigo-100 w-full text-left px-4 py-2"
             @click="logout"
           >
-            Logout
+            Izlogiraj se
           </button>
-          <button
-            v-else
-            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            @click="login"
-          >
-            Login
-          </button>
-          Dashboard
-        </router-link>
-        <h1 v-if="authenticated === true">Hi {{ firstName }}!</h1>
-      </div>
+        </div>
+      </router-link>
+
+      <router-link to="/about" class="block mt-4 lg:inline-block lg:mt-0 mr-4">
+        O Udomi.hr
+      </router-link>
     </div>
   </nav>
 </template>
@@ -47,6 +67,11 @@ import { mapGetters, mapState, mapActions } from "vuex";
 
 export default {
   name: "MainNavbar",
+  data() {
+    return {
+      dropdownVisible: false
+    };
+  },
   computed: {
     ...mapState({
       user: state => state.users.user
