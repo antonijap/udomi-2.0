@@ -9,7 +9,7 @@
     <div class="flex items-center w-auto flex-initial">
       <button
         v-if="authenticated === false"
-        class="bg-blue-100 text-blue-500 py-2 px-4 mr-4 rounded"
+        class="bg-blue-100 text-blue-500 py-2 px-4 mr-4 rounded hover:bg-blue-100"
         @click="login"
       >
         Ulogiraj se
@@ -17,8 +17,8 @@
 
       <router-link
         v-if="authenticated === true"
-        class="bg-blue-100 text-blue-500 py-2 px-4 mr-4 rounded"
-        to="/"
+        class="bg-blue-100 text-blue-500 py-2 px-4 mr-4 rounded hover:bg-blue-200"
+        to="/newad"
       >
         Objavi oglas
       </router-link>
@@ -26,7 +26,7 @@
       <router-link
         v-if="authenticated === true"
         to="/"
-        class="bg-blue-100 text-blue-500 py-2 px-4 mr-4 rounded inline-block flex"
+        class="bg-blue-100 text-blue-500 py-2 px-4 mr-4 rounded inline-block flex hover:bg-blue-100"
         @mouseover.native="dropdownVisible = true"
       >
         <span>{{ firstName }}</span>

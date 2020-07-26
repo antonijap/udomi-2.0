@@ -5,6 +5,7 @@ import About from "./views/About.vue";
 import PetAd from "./views/PetAd.vue";
 import Search from "./views/Search.vue";
 import Dashboard from "./views/Dashboard.vue";
+import NewAd from "./views/NewAd.vue";
 
 import { Firebase } from "./config/firebase";
 import store from "./store/index";
@@ -25,6 +26,11 @@ const router = new Router({
       path: "/about",
       name: "about",
       component: About
+    },
+    {
+      path: "/newad",
+      name: "New Ad",
+      component: NewAd
     },
     {
       path: "/dashboard",
