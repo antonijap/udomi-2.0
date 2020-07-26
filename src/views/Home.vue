@@ -1,30 +1,65 @@
 <template>
   <div class="container mx-auto">
-    <router-link
-      :to="{
-        name: 'search',
-        params: { animalType: 'cat' }
-      }"
-    >
-      <div class="max-w-sm rounded overflow-hidden shadow-lg">
-        <img
-          class="w-full"
-          src="https://ichef.bbci.co.uk/news/410/cpsprodpb/12A9B/production/_111434467_gettyimages-1143489763.jpg"
-          alt="Sunset in the mountains"
-        />
-        <div class="px-6 py-4">
-          <div class="font-bold text-xl mb-2">
-            Macke
+    <div class="grid grid-cols-4 gap-4 mt-4 mb-12">
+      <router-link
+        :to="{
+          name: 'search',
+          params: { animalType: 'cat' }
+        }"
+      >
+        <div class="max-w-sm rounded bg-gray-200 hover:bg-blue-100 text-center">
+          <div class="px-6 py-4">
+            <div class="text-l my-4">
+              Udomi mačku
+            </div>
           </div>
-          <p class="text-gray-700 text-base">
-            Adopt a cute cat.
-          </p>
         </div>
-      </div>
-    </router-link>
-    <hr />
+      </router-link>
+      <router-link
+        :to="{
+          name: 'search',
+          params: { animalType: 'cat' }
+        }"
+      >
+        <div class="max-w-sm rounded bg-gray-200 hover:bg-blue-100 text-center">
+          <div class="px-6 py-4">
+            <div class="text-l my-4">
+              Udomi psa
+            </div>
+          </div>
+        </div>
+      </router-link>
+      <router-link
+        :to="{
+          name: 'search',
+          params: { animalType: 'cat' }
+        }"
+      >
+        <div class="max-w-sm rounded bg-gray-200 hover:bg-blue-100 text-center">
+          <div class="px-6 py-4">
+            <div class="text-l my-4">
+              Iznajmi stan
+            </div>
+          </div>
+        </div>
+      </router-link>
+      <router-link
+        :to="{
+          name: 'search',
+          params: { animalType: 'cat' }
+        }"
+      >
+        <div class="max-w-sm rounded bg-gray-200 hover:bg-blue-100 text-center">
+          <div class="px-6 py-4">
+            <div class="text-l my-4">
+              Mali oglasnik
+            </div>
+          </div>
+        </div>
+      </router-link>
+    </div>
 
-    <h3 class="text-4xl">Newest Dogs</h3>
+    <h3 class="text-xl mt-10 mb-6">Zadnji oglasi mačaka</h3>
     <div class="grid grid-cols-4 gap-4">
       <div v-for="(ad, index) in getNewestDogs" :key="index + '-b'">
         <div class="max-w-sm rounded overflow-hidden shadow-lg">
@@ -49,7 +84,7 @@
       </div>
     </div>
 
-    <h3 class="text-4xl">Newest Cats</h3>
+    <h3 class="text-xl mt-10 mb-6">Zadnji oglasi pasa</h3>
     <div class="grid grid-cols-4 gap-4">
       <div v-for="(ad, index) in getNewestCats" :key="index + '-c'">
         <div class="max-w-sm rounded overflow-hidden shadow-lg">
