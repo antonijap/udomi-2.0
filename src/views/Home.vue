@@ -69,7 +69,7 @@
             alt="Sunset in the mountains"
           />
           <div class="px-6 py-4">
-            <div class="font-bold text-xl mb-2">{{ ad.name }}</div>
+            <div class="font-bold mb-2">{{ ad.name }}</div>
             <p class="text-gray-700 text-base">
               {{ ad.created }}
             </p>
@@ -87,14 +87,14 @@
     <h3 class="text-xl mt-10 mb-6">Zadnji oglasi pasa</h3>
     <div class="grid grid-cols-4 gap-4">
       <div v-for="(ad, index) in getNewestCats" :key="index + '-c'">
-        <div class="max-w-sm rounded overflow-hidden shadow-lg">
+        <div class="max-w-sm rounded shadow-lg">
           <img
             class="w-full"
             src="https://picsum.photos/200"
             alt="Sunset in the mountains"
           />
           <div class="px-6 py-4">
-            <div class="font-bold text-xl mb-2">{{ ad.name }}</div>
+            <div class="font-bold mb-2">{{ ad.name }}</div>
             <p class="text-gray-700 text-base">
               {{ ad.created }}
             </p>
