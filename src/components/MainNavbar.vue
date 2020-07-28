@@ -1,5 +1,7 @@
 <template>
-  <nav class="flex justify-between flex-wrap bg-white-500 p-6">
+  <nav
+    class="container mx-auto flex justify-between flex-wrap bg-white-500 py-6"
+  >
     <div class="flex flex-auto text-gray-900 mr-6">
       <router-link to="/" class="font-semibold text-xl tracking-tight">
         Udomi
@@ -55,9 +57,9 @@
         </div>
       </router-link>
 
-      <router-link to="/about" class="block mt-4 lg:inline-block lg:mt-0 mr-4">
-        O Udomi.hr
-      </router-link>
+      <!--      <router-link to="/about" class="block mt-4 lg:inline-block lg:mt-0 mr-4">-->
+      <!--        O Udomi.hr-->
+      <!--      </router-link>-->
     </div>
   </nav>
 </template>
