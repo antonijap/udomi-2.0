@@ -28,41 +28,49 @@
       <router-link
         v-if="authenticated === true"
         to="/"
-        class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 pl-4 pr-2 border border-gray-400 rounded shadow inline-block flex"
-        @mouseover.native="dropdownVisible = true"
+        class="dropdown bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 pl-4 pr-2 border border-gray-400 rounded shadow inline-flex"
       >
         <span>{{ firstName }}</span>
         <feather type="chevron-down" />
 
         <!--Dropdown-->
-        <div
-          v-if="dropdownVisible"
-          class="block bg-white rounded-lg py-2 w-48 shadow-xl mt-8 -ml-4 absolute"
-          @mouseleave="dropdownVisible = !dropdownVisible"
-        >
-          <router-link
-            v-if="authenticated"
-            to="/dashboard"
-            class="text-gray-900 hover:bg-indigo-100 block px-4 py-2"
-          >
-            Moji oglasi
-          </router-link>
-          <button
-            v-if="authenticated === true"
-            class="text-gray-900 hover:bg-indigo-100 w-full text-left px-4 py-2"
-            @click="logout"
-          >
-            Izlogiraj se
-          </button>
-        </div>
+        <ul class="dropdown-menu absolute hidden text-gray-900 pt-1 -ml-4 mt-8">
+          <li class="">
+            <a
+              class="rounded-t bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap"
+              href="#"
+              >One</a
+            >
+          </li>
+          <li class="">
+            <router-link
+              v-if="authenticated"
+              to="/dashboard"
+              class="bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap"
+            >
+              Moji oglasi
+            </router-link>
+          </li>
+          <li class="">
+            <button
+              v-if="authenticated === true"
+              class="rounded-b bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap"
+              @click="logout"
+            >
+              Izlogiraj se
+            </button>
+          </li>
+        </ul>
       </router-link>
-
-      <!--      <router-link to="/about" class="block mt-4 lg:inline-block lg:mt-0 mr-4">-->
-      <!--        O Udomi.hr-->
-      <!--      </router-link>-->
     </div>
   </nav>
 </template>
+
+<style lang="scss">
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+</style>
 
 <script>
 import { mapGetters, mapState, mapActions } from "vuex";
@@ -70,9 +78,7 @@ import { mapGetters, mapState, mapActions } from "vuex";
 export default {
   name: "MainNavbar",
   data() {
-    return {
-      dropdownVisible: false
-    };
+    return {};
   },
   computed: {
     ...mapState({
