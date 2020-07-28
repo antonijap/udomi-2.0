@@ -69,7 +69,7 @@
             alt="Sunset in the mountains"
           />
           <div class="px-6 py-4">
-            <div class="font-bold text-xl mb-2">{{ ad.name }}</div>
+            <div class="font-bold text-l mb-2">{{ ad.name }}</div>
             <p class="text-gray-700 text-base">
               {{ ad.created }}
             </p>
@@ -94,7 +94,7 @@
             alt="Sunset in the mountains"
           />
           <div class="px-6 py-4">
-            <div class="font-bold text-xl mb-2">{{ ad.name }}</div>
+            <div class="font-bold text-l mb-2">{{ ad.name }}</div>
             <p class="text-gray-700 text-base">
               {{ ad.created }}
             </p>
