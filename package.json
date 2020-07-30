@@ -1,6 +1,6 @@
 {
 	"name": "udomi-2.0",
-	"version": "0.1.0",
+	"version": "0.0.1",
 	"private": true,
 	"scripts": {
 		"serve": "vue-cli-service serve",
@@ -53,7 +53,10 @@
 		],
 		"rules": {
 			"no-console": 0,
-			"max-len": 0
+			"max-len": 0,
+			"no-irregular-whitespace": "off",
+			"no-multi-spaces": "off",
+			"endOfLine": "off"
 		},
 		"parserOptions": {
 			"parser": "babel-eslint"
