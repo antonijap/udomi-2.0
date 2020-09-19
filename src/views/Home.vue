@@ -133,7 +133,6 @@ export default {
             getNewestCats: "petAds/getNewestCats",
         }),
     },
-
     mounted() {
         this.loggedIn = this.$store.getters["users/authenticated"]
     },
